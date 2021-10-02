@@ -1,0 +1,29 @@
+.container,
+.header__toolbar,
+.header__usebility,
+.header__searching {
+  display: flex;
+  align-items: center;
+}
+.container{
+  width: 100%;
+}
+.header__toolbar {
+  max-width: 20%;
+  justify-content: space-between;
+  width: 100%;
+  background-color: red;
+}
+.header__searching {
+  max-width: 40%;
+  justify-content: center;
+  width: 100%;
+  background-color: green;
+}
+
+.header__usebility {
+  max-width: 30%;
+  justify-content: space-between;
+  width: 100%;
+  background-color: yellow;
+}

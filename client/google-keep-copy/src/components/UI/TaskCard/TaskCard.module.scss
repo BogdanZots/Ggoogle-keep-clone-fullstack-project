@@ -1,0 +1,38 @@
+
+  .tasks {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .task {
+    box-sizing: border-box;
+    min-width: calc(33% - 30px);
+    margin: 15px;
+    position: relative;
+    /*   max-width: 100%; */
+    height: auto;
+    background-color: silver;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-height: 350px;
+    h1 {
+      display: block;
+      max-width: 100%;
+    }
+  }
+  .editing__actions{
+      position: absolute;
+      bottom: 0;
+      display: flex;
+      align-self: flex-end;
+      align-items: center;
+  }
+  .edit__img{
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  cursor: pointer;
+  }
+  .edit__img:hover{
+      fill: red;
+  }
