@@ -15,6 +15,11 @@ const AddNewTaskContainer = ({ addNewTask, completedField }) => {
     typeId,
     endDate: endDateForRemind,
   };
+  const clearInputs = () => {
+    setTitle("");
+    setTaskDescription("");
+    setEndDateForRemind("");
+  };
   return (
     <div>
       <TaskInput title={title} titleInput setTitle={setTitle} />
@@ -26,6 +31,7 @@ const AddNewTaskContainer = ({ addNewTask, completedField }) => {
         <InputMask
           mask="99-99-9999"
           placeholder="Введите дату в формате dd/yy/mmmm"
+          value={endDateForRemind}
           onChange={(e) => {
             setEndDateForRemind(e.target.value);
           }}
@@ -44,6 +50,7 @@ const AddNewTaskContainer = ({ addNewTask, completedField }) => {
       </div>
       <div>
         <AddTaskButton
+          clearInputs={clearInputs}
           dataToPost={dataToPost}
           completedField={completedField}
           addNewTask={addNewTask}

@@ -13,6 +13,7 @@ const Popup = ({
   taskName,
   taskDescription,
   setPopupVisible,
+  isCompleted,
   typeId,
   popupVisible,
   endDate,
@@ -42,6 +43,7 @@ const Popup = ({
             typeId={typeId}
             popupVisible={popupVisible}
             changeCurrentTask={changeCurrentTask}
+            isCompleted={isCompleted}
           />
         ) : (
           ""
@@ -73,7 +75,8 @@ Popup.propTypes = {
   popupVisible: PropTypes.bool.isRequired,
   endDate: PropTypes.string.isRequired,
   removeCurrentTask: PropTypes.func.isRequired,
-  changeCurrentTask: PropTypes.func.isRequired
+  changeCurrentTask: PropTypes.func.isRequired,
+  isCompleted: PropTypes.bool.isRequired
 };
 
 export default Popup;

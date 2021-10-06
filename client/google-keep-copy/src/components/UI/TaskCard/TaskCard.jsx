@@ -44,6 +44,7 @@ const TaskCard = ({ task, removeCurrentTask, changeCurrentTask }) => {
           typeId={task.typeId}
           taskName={task.name}
           taskDescription={task.text}
+          isCompleted={task.isCompleted}
           uId={task.id}
         />
         <DeleteImg removeCurrentTask={removeCurrentTask} uId={task.id} />

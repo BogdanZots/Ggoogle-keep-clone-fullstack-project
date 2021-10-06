@@ -8,7 +8,12 @@ import {
   REMOVE_TARGET_ITEM,
   CHANGE_TARGETS_ITEM,
   CHANGE_TARGETS_ITEM_STATUS,
-  SET_DEADLINE_ARRAY
+  SET_DEADLINE_ARRAY,
+  SET_TARGETS_PAGES,
+  SET_CURRENT_TARGETS_PAGE,
+  REGISTER_USER,
+  LOGIN_USER,
+  CHECK_USER_AUTH,
 } from "../consts/actionTypes";
 // reminds page
 export const setRemindsArrayAC = (payload) => ({
@@ -29,14 +34,14 @@ export const addRemindsItemAC = (payload) => ({
 });
 export const setDeadlineArray = (payload) => ({
   type: SET_DEADLINE_ARRAY,
-  payload
+  payload,
 });
 
 // targets page
 
 export const setTargetsArrayAC = (payload) => ({
   type: SET_TARGETS_ARRAY,
-  payload
+  payload,
 });
 export const addTargetItemAC = (payload) => ({
   type: ADD_TARGET_ITEM,
@@ -44,7 +49,7 @@ export const addTargetItemAC = (payload) => ({
 });
 export const removeTargetItemAC = (payload) => ({
   type: REMOVE_TARGET_ITEM,
-  payload
+  payload,
 });
 export const changeTargetsItemAC = (payload) => ({
   type: CHANGE_TARGETS_ITEM,
@@ -52,5 +57,28 @@ export const changeTargetsItemAC = (payload) => ({
 });
 export const changeTargetsItemStatusAC = (payload) => ({
   type: CHANGE_TARGETS_ITEM_STATUS,
+  payload,
+});
+export const setTargetsPages = (payload) => ({
+  type: SET_TARGETS_PAGES,
+  payload,
+});
+export const setCurrentTargetsPage = (payload = 1) => ({
+  type: SET_CURRENT_TARGETS_PAGE,
+  payload,
+});
+
+// user
+
+export const setUser = (payload) => ({
+  type: REGISTER_USER,
+  payload,
+});
+export const loginUserAC = (payload) => ({
+  type: LOGIN_USER,
+  payload,
+});
+export const checkUserAuthAC = (payload) => ({
+  type: CHECK_USER_AUTH,
   payload
 });

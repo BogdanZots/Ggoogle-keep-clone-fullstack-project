@@ -9,11 +9,13 @@ const EditPopup = ({
   typeId,
   taskName,
   changeCurrentTask,
+  isCompleted,
   popupVisible,
   taskDescription,
   setPopupVisible,
   endDate,
 }) => {
+  console.log('is compl', isCompleted);
   const [description, setDescription] = useState(taskDescription);
   const [title, setTitle] = useState(taskName);
   const [endDateEdited, setEndDateEdited] = useState(endDate);
@@ -52,6 +54,7 @@ const EditPopup = ({
           const data = {
             id: uId,
             newData: {
+              isCompleted,
               id: uId,
               text: description,
               name: title,
@@ -60,6 +63,7 @@ const EditPopup = ({
               searchId: uId,
             },
           };
+          console.log('data', data);
 
           dispatch(changeCurrentTask({ ...data }));
           setPopupVisible(!popupVisible);
@@ -80,6 +84,7 @@ EditPopup.propTypes = {
   setPopupVisible: PropTypes.func.isRequired,
   endDate: PropTypes.string.isRequired,
   changeCurrentTask: PropTypes.func.isRequired,
+  isCompleted: PropTypes.bool.isRequired
 };
 
 export default EditPopup;

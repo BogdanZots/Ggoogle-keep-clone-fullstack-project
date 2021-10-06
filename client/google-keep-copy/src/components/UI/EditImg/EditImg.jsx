@@ -4,7 +4,15 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Popup from "../Popup/Popup";
 
-const EditImg = ({ uId, taskDescription, typeId, taskName, endDate, changeCurrentTask }) => {
+const EditImg = ({
+  uId,
+  taskDescription,
+  typeId,
+  taskName,
+  endDate,
+  changeCurrentTask,
+  isCompleted,
+}) => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [editAction, setEditEction] = useState(false);
   return (
@@ -43,6 +51,7 @@ const EditImg = ({ uId, taskDescription, typeId, taskName, endDate, changeCurren
           taskName={taskName}
           setPopupVisible={setPopupVisible}
           popupVisible={popupVisible}
+          isCompleted={isCompleted}
           changeCurrentTask={changeCurrentTask}
         />
       ) : (
@@ -58,7 +67,8 @@ EditImg.propTypes = {
   typeId: PropTypes.string.isRequired,
   taskName: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
-  changeCurrentTask: PropTypes.func.isRequired
+  changeCurrentTask: PropTypes.func.isRequired,
+  isCompleted: PropTypes.bool.isRequired,
 };
 
 export default EditImg;

@@ -6,18 +6,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-shadow */
 /* eslint-disable valid-typeof */
-export const getCurrentWeek = (currentDate) => {
-  const firstDay = new Date(currentDate);
-  const nextWeek = new Date(firstDay.getTime() + 7 * 24 * 60 * 60 * 1000);
-  return nextWeek;
-};
-export const getEndTaskTimeWeek = (date) => {
-  // получаю время окончания таска
-  const time = new Date(date);
-  const nextWeek = new Date(time.getTime() + 7 * 24 * 60 * 60 * 1000);
-  console.log(date / (7 * 24 * 60 * 60 * 1000));
-  return nextWeek;
-};
 
 export const getTimeToTaskEnd = (date) => {
   const day = Number(date[0]);

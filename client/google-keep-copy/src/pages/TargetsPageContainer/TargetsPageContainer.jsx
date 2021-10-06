@@ -10,12 +10,17 @@ import {
   changeCurrentTask,
 } from "../../store/reducers/targetsRuducer";
 import s from "./TargetsPageContainer.module.scss";
-import { TARGETS_URL } from "../../consts/conts";
+import { COMPLETED_TARGETS, ITEMS_PER_PAGE, TARGETS_URL } from "../../consts/conts";
+import Paginator from "../../components/Paginator/Paginator";
+import { checkAuth } from "../../store/reducers/userReducer";
 
 const TargetsPageContainer = () => {
-  const { targetsArray } = useSelector((store) => store.targetsPage);
+  const { targetsArray, allTargetsCount, currentPage } = useSelector(
+    (store) => store.targetsPage
+  );
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(checkAuth());
     dispatch(getAllTasks(TARGETS_URL));
   }, []);
   return (
@@ -27,6 +32,8 @@ const TargetsPageContainer = () => {
         changeCurrentTask={changeCurrentTask}
         removeCurrentTask={deleteCurrentTask}
         targetsTasks={targetsArray}
+        currentPage={currentPage}
+        allTargetsCount={allTargetsCount}
       />
     </div>
   );

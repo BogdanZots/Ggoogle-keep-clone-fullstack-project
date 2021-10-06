@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import s from "./AddTaskButton.module.scss";
 import { checkInputFields } from "../../../utils/utils";
 
-const AddTaskButton = ({ dataToPost, addNewTask, completedField }) => {
+const AddTaskButton = ({ dataToPost, addNewTask, completedField, clearInputs }) => {
   let data = {};
   if (completedField) {
     data = { ...dataToPost, isCompleted: false };
@@ -19,6 +19,7 @@ const AddTaskButton = ({ dataToPost, addNewTask, completedField }) => {
         type="button"
         disabled={isDisabled}
         onClick={() => {
+          clearInputs();
           dispatch(addNewTask(data));
         }}
       >
@@ -31,7 +32,8 @@ const AddTaskButton = ({ dataToPost, addNewTask, completedField }) => {
 AddTaskButton.propTypes = {
   dataToPost: PropTypes.shape({ root: PropTypes.string.isRequired }),
   addNewTask: PropTypes.func.isRequired,
-  completedField: PropTypes.bool
+  completedField: PropTypes.bool,
+  clearInputs: PropTypes.func.isRequired
 };
 
 export default AddTaskButton;
