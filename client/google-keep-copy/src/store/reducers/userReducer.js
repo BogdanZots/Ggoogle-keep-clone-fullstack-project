@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable camelcase */
 /* eslint-disable arrow-body-style */
 /* eslint-disable consistent-return */
@@ -11,6 +12,7 @@ import { CHECK_USER_AUTH, LOGIN_USER, REGISTER_USER } from "../consts/actionType
 
 const initialState = {
   isAuth: false,
+  userId: 0,
   email: "",
   name: "",
   token: ""
@@ -26,14 +28,18 @@ const userReducer = (state = initialState, action) => {
         ...stateCopy
       };
     case LOGIN_USER:
-      console.log('act payload', action.payload);
       stateCopy.email = action.payload.email;
+      stateCopy.name = action.payload.name;
+      stateCopy.id = action.payload.id;
       return {
         ...stateCopy
       };
     case CHECK_USER_AUTH:
       stateCopy.email = action.payload.email;
-      console.log(action);
+      stateCopy.name = action.payload.name;
+      stateCopy.userId = action.payload.id;
+      stateCopy.isAuth = false;
+      if (stateCopy.name && stateCopy.email && stateCopy.userId) stateCopy.isAuth = true;
       return {
         ...stateCopy
       };
@@ -51,24 +57,25 @@ export const registerUser = (data) => {
 export const loginUser = (data) => {
   return async function (dispatch) {
     const login = await postLogin(data);
-    await console.log('loginb', login);
     localStorage.setItem('token', JSON.stringify(login));
+    dispatch(checkAuth());
     if (login) {
       const decodedToke = jwt_decode(login);
       dispatch(loginUserAC(decodedToke));
     }
-    postLogin(data);
   };
 };
-export const checkAuth = () => {
+export function checkAuth() {
   let decodedToken = "";
   return async function (dispatch) {
-    const token = JSON.parse(localStorage.getItem('token'));
-    console.log('TOKEN', token);
+    const token = await JSON.parse(localStorage.getItem('token'));
     if (token) {
       decodedToken = jwt_decode(token);
     }
-    await dispatch(checkUserAuthAC(decodedToken));
+    dispatch(checkUserAuthAC(decodedToken));
   };
-};
+}
+export function checkAuthh() {
+  const token = JSON.parse(localStorage.getItem('token'));
+}
 export default userReducer;

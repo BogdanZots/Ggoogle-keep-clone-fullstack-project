@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable arrow-body-style */
 /* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
@@ -17,11 +18,13 @@ import {
   REMOVE_REMINDS_ITEM,
   ADD_REMINDS_ITEM,
   SET_DEADLINE_ARRAY,
+  SET_CURRENT_REMINDS_PAGE,
 } from "../consts/actionTypes";
 
 const initialState = {
   remindsArray: [],
   deadlineArray: [],
+  currentPage: 1
 };
 
 const remindReducer = (state = initialState, action) => {
@@ -47,11 +50,15 @@ const remindReducer = (state = initialState, action) => {
         ...stateCopy,
         deadlineArray
       };
-
+    case SET_CURRENT_REMINDS_PAGE:
+      stateCopy.currentPage = action.payload;
+      return {
+        ...stateCopy
+      };
     case ADD_REMINDS_ITEM:
       stateCopy.remindsArray = [...stateCopy.remindsArray];
-      const lastId = stateCopy.remindsArray[stateCopy.remindsArray.length - 1].id;
-      stateCopy.remindsArray.push({ id: lastId + 1, ...action.payload });
+      delete action.payload.isCompleted;
+      stateCopy.remindsArray.push(action.payload);
       return {
         ...stateCopy,
       };
@@ -86,6 +93,7 @@ export const deleteCurrentTask = (uId) => {
   return function (dispatch) {
     dispatch(removeRemindsItemAC({ uId }));
     removeCurrentTask(uId, REMINDS_URL);
+    dispatch(setDeadlineArray());
   };
 };
 export const changeCurrentTask = (data) => {
@@ -102,6 +110,7 @@ export const changeCurrentTask = (data) => {
         },
       })
     );
+    dispatch(setDeadlineArray());
     updateCurrentTask({
       text: data.newData.text,
       name: data.newData.name,
@@ -111,16 +120,17 @@ export const changeCurrentTask = (data) => {
   };
 };
 export const addNewTask = (data) => {
-  return function (dispatch) {
-    postNewTask(data, REMINDS_URL);
-    dispatch(addRemindsItemAC({ ...data }));
+  return async function (dispatch) {
+    const res = await postNewTask(data, REMINDS_URL);
+    dispatch(addRemindsItemAC({ ...res }));
+    dispatch(setDeadlineArray());
   };
 };
-export const getAllTasks = () => {
+export const getAllTasks = (url, userId) => {
   return async function (dispatch) {
-    const data = await getTasks(REMINDS_URL);
+    const data = await getTasks(REMINDS_URL, userId);
     dispatch(setRemindsArrayAC(data.sort((a, b) => a.id - b.id)));
-    dispatch(setDeadlineArray(data.sort((a, b) => a.id - b.id)));
+    dispatch(setDeadlineArray());
   };
 };
 

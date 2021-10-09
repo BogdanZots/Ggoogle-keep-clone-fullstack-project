@@ -15,7 +15,6 @@ const EditPopup = ({
   setPopupVisible,
   endDate,
 }) => {
-  console.log('is compl', isCompleted);
   const [description, setDescription] = useState(taskDescription);
   const [title, setTitle] = useState(taskName);
   const [endDateEdited, setEndDateEdited] = useState(endDate);
@@ -63,7 +62,6 @@ const EditPopup = ({
               searchId: uId,
             },
           };
-          console.log('data', data);
 
           dispatch(changeCurrentTask({ ...data }));
           setPopupVisible(!popupVisible);

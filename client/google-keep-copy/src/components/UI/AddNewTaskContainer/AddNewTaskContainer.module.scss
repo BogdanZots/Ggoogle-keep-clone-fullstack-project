@@ -1,3 +1,14 @@
+.task__container{
+    border-radius: 8px;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.062), 0 2px 6px 2px rgba(60, 64, 67, 0.123);
+    padding:10px;
+    margin-top: 40px;
+}
+
+
+
+
+
 @import url("https://fonts.googleapis.com/css?family=Dosis");
 
 :root {
@@ -44,6 +55,7 @@
 }
 
 .Input_text {
+    cursor: pointer;
     font-size: 14px;
   display: block;
   margin: 0;
@@ -64,10 +76,12 @@
 }
 
 .Input_text:focus {
+    cursor: pointer;
   outline: none;
 }
 
 .Input-label {
+    cursor: pointer;
   display: block;
   position: absolute;
   bottom: 50%;
@@ -99,4 +113,71 @@
     scale(var(--labelScaleFactor));
   transition: transform var(--inputTransitionDuration), visibility 0ms,
     z-index 0ms;
+}
+.Input_date{
+    margin-top: 40px;
+}
+
+.select {
+	position: relative;
+	min-width: 200px;
+    margin-top: 30px;
+	svg {
+		position: absolute;
+		right: 12px;
+		top: calc(50% - 3px);
+		width: 10px;
+		height: 6px;
+		stroke-width: 2px;
+		stroke: #9098a9;
+		fill: none;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		pointer-events: none;
+	}
+	select {
+		-webkit-appearance: none;
+		padding: 7px 40px 7px 12px;
+		width: 30%;
+		border: 1px solid #e8eaed;
+		border-radius: 5px;
+		background: #fff;
+		box-shadow: 0 1px 3px -2px #9098a9;
+		cursor: pointer;
+		font-family: inherit;
+		font-size: 16px;
+		transition: all 150ms ease;
+		&:required {
+			&:invalid {
+				color: #5a667f;
+			}
+		}
+		option {
+			color: #223254;
+		}
+		option[value=""][disabled] {
+			display: none;
+		}
+		&:focus {
+			outline: none;
+			border-color: #07f;
+			box-shadow: 0 0 0 2px rgba(0,119,255,0.2);
+		}
+		&:hover {
+			& + svg {
+				stroke: #07f;
+			}
+		}
+	}
+}
+.sprites {
+	position: absolute;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+	user-select: none;
+}
+
+.date__container{
+    margin-top: 30px;
 }

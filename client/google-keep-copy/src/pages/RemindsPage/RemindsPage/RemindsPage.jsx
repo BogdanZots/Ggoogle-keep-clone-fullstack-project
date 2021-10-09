@@ -5,7 +5,6 @@ import TaskCard from "../../../components/UI/TaskCard/TaskCard";
 
 const RemindsPage = ({
   remindsTasks,
-  addNewTask,
   removeCurrentTask,
   changeCurrentTask,
 }) => (
@@ -24,7 +23,6 @@ const RemindsPage = ({
 
 RemindsPage.propTypes = {
   remindsTasks: PropTypes.array.isRequired,
-  addNewTask: PropTypes.func.isRequired,
   removeCurrentTask: PropTypes.func.isRequired,
   changeCurrentTask: PropTypes.func.isRequired,
 };

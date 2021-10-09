@@ -28,7 +28,7 @@ const Login = () => {
           setEmail("");
           setPassword("");
           dispatch(loginUser(data));
-          setTimeout(1000, dispatch(checkAuth()));
+          dispatch(checkAuth());
         }}
         type="button"
       >

@@ -2,22 +2,46 @@
 /* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
 /* eslint-disable func-names */
-import { getTasks, postNewTask, removeCurrentTask, updateCurrentTask, updateTargetsItemStatus } from "../../api/api";
+import {
+  getTasks,
+  postNewTask,
+  removeCurrentTask,
+  updateCurrentTask,
+  updateTargetsItemStatus,
+} from "../../api/api";
 import { TARGETS_URL } from "../../consts/conts";
-import { addTargetItemAC, removeTargetItemAC, setTargetsArrayAC, changeTargetsItemAC, changeTargetsItemStatusAC, setTargetsPages, setCurrentTargetsPage } from "../actions/actions";
-import { ADD_TARGET_ITEM, SET_TARGETS_ARRAY, REMOVE_TARGET_ITEM, CHANGE_TARGETS_ITEM, CHANGE_TARGETS_ITEM_STATUS, SET_TARGETS_PAGES, SET_CURRENT_TARGETS_PAGE } from "../consts/actionTypes";
+import {
+  addTargetItemAC,
+  removeTargetItemAC,
+  setTargetsArrayAC,
+  changeTargetsItemAC,
+  changeTargetsItemStatusAC,
+  setTargetsPages,
+  setCompletedTargetsArrayAC,
+} from "../actions/actions";
+import {
+  ADD_TARGET_ITEM,
+  SET_TARGETS_ARRAY,
+  REMOVE_TARGET_ITEM,
+  CHANGE_TARGETS_ITEM,
+  CHANGE_TARGETS_ITEM_STATUS,
+  SET_TARGETS_PAGES,
+  SET_CURRENT_TARGETS_PAGE,
+  SET_COMPLETED_TARGETS,
+} from "../consts/actionTypes";
 
 const initialState = {
   targetsArray: [],
+  completedTargetsArray: [],
   allTargetsCount: 0,
   currentPage: 1,
+  prevPage: 0,
 };
 
-const remindReducer = (state = initialState, action) => {
+const targetsReducer = (state = initialState, action) => {
   const stateCopy = { ...state };
   switch (action.type) {
     case SET_TARGETS_ARRAY:
-      console.log('ACTION', action);
       stateCopy.targetsArray = [...stateCopy.targetsArray];
       stateCopy.targetsArray = [...action.payload];
       return {
@@ -26,12 +50,19 @@ const remindReducer = (state = initialState, action) => {
     case SET_TARGETS_PAGES:
       stateCopy.allTargetsCount = action.payload;
       return {
+        ...stateCopy,
+      };
+    case SET_COMPLETED_TARGETS:
+      stateCopy.completedTargetsArray = stateCopy.targetsArray.filter(
+        (target) => target.isCompleted === true
+      );
+      return {
         ...stateCopy
       };
     case ADD_TARGET_ITEM:
       stateCopy.targetsArray = [...stateCopy.targetsArray];
-      const lastId = stateCopy.targetsArray[stateCopy.targetsArray.length - 1].id;
-      stateCopy.targetsArray.push({ id: lastId + 1, ...action.payload });
+      stateCopy.targetsArray.push(action.payload);
+      stateCopy.allTargetsCount = stateCopy.targetsArray.length;
       return {
         ...stateCopy,
       };
@@ -70,14 +101,14 @@ const remindReducer = (state = initialState, action) => {
       stateCopy.targetsArray = stateCopy.targetsArray.filter(
         (task) => task.id !== action.payload.uId
       );
+      stateCopy.allTargetsCount = stateCopy.targetsArray.length;
       return {
         ...stateCopy,
       };
     case SET_CURRENT_TARGETS_PAGE:
-      stateCopy.currentPage = action.payload;
-      console.log('state copy', stateCopy);
+      stateCopy.currentPage = action.payload || 1;
       return {
-        ...stateCopy
+        ...stateCopy,
       };
     default:
       return state;
@@ -98,17 +129,24 @@ export const changeCurrentTask = (data) => {
         },
       })
     );
-    updateCurrentTask({
-      text: data.newData.text,
-      name: data.newData.name,
-      endDate: data.newData.endDate,
-      searchId: data.newData.id,
-    }, TARGETS_URL);
+    updateCurrentTask(
+      {
+        text: data.newData.text,
+        name: data.newData.name,
+        endDate: data.newData.endDate,
+        searchId: data.newData.id,
+      },
+      TARGETS_URL
+    );
+    dispatch(setCompletedTargetsArrayAC());
   };
 };
 export const changeTaskCompletedStatus = (data) => {
   return function (dispatch) {
-    dispatch(changeTargetsItemStatusAC({ id: data.id, isCompleted: data.isCompleted }));
+    dispatch(
+      changeTargetsItemStatusAC({ id: data.id, isCompleted: data.isCompleted })
+    );
+    dispatch(setCompletedTargetsArrayAC());
     updateTargetsItemStatus(data.id, TARGETS_URL, data.isCompleted);
   };
 };
@@ -116,6 +154,7 @@ export const deleteCurrentTask = (uId) => {
   return function (dispatch) {
     dispatch(removeTargetItemAC({ uId }));
     removeCurrentTask(uId, TARGETS_URL);
+    dispatch(setCompletedTargetsArrayAC());
   };
 };
 export const addNewTask = (data) => {
@@ -128,17 +167,17 @@ export const addNewTask = (data) => {
     await getData();
     postNewTask(data, TARGETS_URL);
     dispatch(addTargetItemAC({ ...date }));
+    dispatch(setCompletedTargetsArrayAC());
   };
 };
 
-export const getAllTasks = (url, limit = 2, page = 1) => {
+export const getAllTasks = (url, userId) => {
   return async function (dispatch) {
-    const tasks = await getTasks(url, limit, page);
-    console.log(page);
-    /*     dispatch(setCurrentTargetsPage(page)); */
+    const tasks = await getTasks(url, userId);
     dispatch(setTargetsPages(tasks.count));
     dispatch(setTargetsArrayAC(tasks.rows));
+    dispatch(setCompletedTargetsArrayAC());
   };
 };
 
-export default remindReducer;
+export default targetsReducer;

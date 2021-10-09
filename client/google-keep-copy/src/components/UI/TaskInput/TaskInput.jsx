@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import s from "./TaskInput.module.scss";
 
 const TaskInput = ({
   title,
@@ -12,6 +13,9 @@ const TaskInput = ({
     {titleInput ? (
       <div>
         <input
+          type="text"
+          id="input"
+          className={s.Input_text}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Опишите заголовок"
@@ -20,6 +24,9 @@ const TaskInput = ({
     ) : (
       <div>
         <input
+          type="text"
+          id="input"
+          className={s.Input_text}
           value={taskDescription}
           onChange={(e) => setTaskDescription(e.target.value)}
           placeholder="Опишите Задачу"

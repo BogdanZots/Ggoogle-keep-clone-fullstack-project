@@ -14,6 +14,8 @@ import {
   REGISTER_USER,
   LOGIN_USER,
   CHECK_USER_AUTH,
+  SET_COMPLETED_TARGETS,
+  SET_CURRENT_REMINDS_PAGE,
 } from "../consts/actionTypes";
 // reminds page
 export const setRemindsArrayAC = (payload) => ({
@@ -36,12 +38,20 @@ export const setDeadlineArray = (payload) => ({
   type: SET_DEADLINE_ARRAY,
   payload,
 });
+export const setCurrentRemindsPage = (payload) => ({
+  type: SET_CURRENT_REMINDS_PAGE,
+  payload,
+});
 
 // targets page
 
 export const setTargetsArrayAC = (payload) => ({
   type: SET_TARGETS_ARRAY,
   payload,
+});
+export const setCompletedTargetsArrayAC = (payload) => ({
+  type: SET_COMPLETED_TARGETS,
+  payload
 });
 export const addTargetItemAC = (payload) => ({
   type: ADD_TARGET_ITEM,
@@ -63,7 +73,7 @@ export const setTargetsPages = (payload) => ({
   type: SET_TARGETS_PAGES,
   payload,
 });
-export const setCurrentTargetsPage = (payload = 1) => ({
+export const setCurrentTargetsPage = (payload) => ({
   type: SET_CURRENT_TARGETS_PAGE,
   payload,
 });

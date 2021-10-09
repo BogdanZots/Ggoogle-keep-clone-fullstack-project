@@ -10,15 +10,15 @@ const TaskCard = ({ task, removeCurrentTask, changeCurrentTask }) => {
   const dispatch = useDispatch();
   return (
     <div key={task.id} className={s.task}>
-      <div>
+      <div className={s.task__title}>
         Название задачи :
         {task.name}
       </div>
-      <div>
+      <div className={s.task__text}>
         Описание
         {task.text}
       </div>
-      <div>
+      <div className={s.task__date}>
         Время окончания
         {task.endDate}
       </div>
@@ -33,7 +33,7 @@ const TaskCard = ({ task, removeCurrentTask, changeCurrentTask }) => {
           />
         </div>
       ) : "" }
-      <div>
+      <div className={s.task__type}>
         Тип задачи :
         {task.typeId ? task.typeId : "Отсувствует"}
       </div>

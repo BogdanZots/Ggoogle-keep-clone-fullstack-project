@@ -8,11 +8,11 @@
   --gutterXl: 2.4rem;
   --gutterXx: 7.2rem;
   --fontFamily: "Dosis", sans-serif;
-  --fontSizeSm: 14px;
-  --fontSizeMd: 14px;
-  --fontSizeLg: 14px;
-  --fontSizeXl: 14px;
-  --fontSizeXx: 14px;
+  --fontSizeSm: 1.2rem;
+  --fontSizeMd: 1.6rem;
+  --fontSizeLg: 2.1rem;
+  --fontSizeXl: 2.8rem;
+  --fontSizeXx: 3.6rem;
   --lineHeightSm: 1.1;
   --lineHeightMd: 1.8;
   --transitionDuration: 300ms;
@@ -44,19 +44,24 @@
 }
 
 .Input_text {
-    font-size: 14px;
   display: block;
   margin: 0;
   padding: var(--inputPaddingV) var(--inputPaddingH);
   color: inherit;
-  width: 40%;
+  width: 50%;
   font-family: inherit;
   font-weight: inherit;
   line-height: var(--inputLineHeight);
-  height: 20px;
-  border: none;
-  margin-top: 20px;
+  height: 50px;
+  border: 1px solid silver;
   border-radius: 0.4rem;
+  box-shadow:
+  3px 2.8px 2.2px rgba( 0.086, 0.086, 0.086, 0.034),
+  3px 6.7px 5.3px rgba( 0.086, 0.086, 0.086, 0.048),
+  3px 12.5px 10px rgba( 0.086, 0.086, 0.086, 0.06),
+  3px 22.3px 17.9px rgba( 0.086, 0.086, 0.086, 0.072),
+  3px 41.8px 33.4px rgba( 0.086, 0.086, 0.086, 0.086),
+  3px 100px 80px rgba( 0.086, 0.086, 0.086, 0.12)
 }
 
 .Input_text::placeholder {
@@ -74,6 +79,7 @@
   left: 1rem;
   color: #fff;
   font-family: inherit;
+  font-size: var(--inputFontSize);
   font-weight: inherit;
   line-height: var(--inputLineHeight);
   opacity: 0;
@@ -99,4 +105,10 @@
     scale(var(--labelScaleFactor));
   transition: transform var(--inputTransitionDuration), visibility 0ms,
     z-index 0ms;
+}
+.search__container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;  
 }

@@ -1,63 +1,62 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import TaskCard from "../../../components/UI/TaskCard/TaskCard";
 import s from "./TargetsPage.module.scss";
-import { COMPLETED_TARGETS, TARGETS_URL, ITEMS_PER_PAGE } from "../../../consts/conts";
-import Paginator from "../../../components/Paginator/Paginator";
+import {
+  ALL_TARGETS_PAGE,
+  COMPLETED_TARGETS_PAGE,
+} from "../../../consts/conts";
+import AllTargetsPage from "./AllTargetsPage/AllTargetsPage";
+import CompletedTargetsPage from "./CompletedTargetsPage/CompletedTargetsPage";
 
 const TargetsPage = ({
   targetsTasks,
   removeCurrentTask,
   changeCurrentTask,
-  getAllTasks,
   allTargetsCount,
+  completedTargetsArray,
   currentPage
 }) => {
-  console.log('all targets', allTargetsCount);
-  const [URL, setUrl] = useState(TARGETS_URL);
-  const dispatch = useDispatch();
+  console.log('t tasks', targetsTasks);
+  const [component, setComponent] = useState(ALL_TARGETS_PAGE);
   return (
     <div className={s.container}>
       <div>
         <button
           onClick={() => {
-            setUrl(TARGETS_URL + COMPLETED_TARGETS);
-            dispatch(getAllTasks(TARGETS_URL + COMPLETED_TARGETS));
+            setComponent(COMPLETED_TARGETS_PAGE);
           }}
           type="button"
         >
           Показать выполенные
         </button>
+        {component === ALL_TARGETS_PAGE ? (
+          <AllTargetsPage
+            targetsTasks={targetsTasks}
+            changeCurrentTask={changeCurrentTask}
+            removeCurrentTask={removeCurrentTask}
+            allTargetsCount={allTargetsCount}
+            currentPage={currentPage}
+          />
+        ) : (
+          <CompletedTargetsPage
+            targetsTasks={completedTargetsArray}
+            changeCurrentTask={changeCurrentTask}
+            removeCurrentTask={removeCurrentTask}
+            currentPage={currentPage}
+          />
+        )}
       </div>
       <div>
         <button
           onClick={() => {
-            setUrl(TARGETS_URL);
-            dispatch(getAllTasks(TARGETS_URL));
+            setComponent(ALL_TARGETS_PAGE);
           }}
           type="button"
         >
           Показать все
         </button>
       </div>
-      {targetsTasks
-        ? targetsTasks.map((task) => {
-          return (
-            <TaskCard
-              changeCurrentTask={changeCurrentTask}
-              removeCurrentTask={removeCurrentTask}
-              task={task}
-            />
-          );
-        })
-        : ""}
-      <Paginator
-        URL={URL}
-        currentPage={currentPage}
-        getAllTasks={getAllTasks}
-        pagesCount={allTargetsCount / ITEMS_PER_PAGE}
-      />
+
     </div>
   );
 };
@@ -66,10 +65,9 @@ TargetsPage.propTypes = {
   targetsTasks: PropTypes.array.isRequired,
   removeCurrentTask: PropTypes.func.isRequired,
   changeCurrentTask: PropTypes.func.isRequired,
-  getAllTasks: PropTypes.func.isRequired,
   allTargetsCount: PropTypes.number.isRequired,
+  completedTargetsArray: PropTypes.array.isRequired,
   currentPage: PropTypes.number.isRequired
-
 };
 
 export default TargetsPage;

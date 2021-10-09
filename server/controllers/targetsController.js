@@ -3,30 +3,42 @@ const { TargetsTasks } = require("../models/models");
 
 class TargetsController {
   async create(req, res) {
-    const { name, text, isCompleted , typeId , endDate } = req.body.body;
-    const targetsItem = await TargetsTasks.create({ name, text, typeId , isCompleted ,  endDate});
+    const { name, text, isCompleted, typeId, endDate, userId } = req.body.body;
+    const targetsItem = await TargetsTasks.create({
+      name,
+      text,
+      typeId,
+      isCompleted,
+      endDate,
+      userId,
+    });
     return res.json(targetsItem);
   }
 
   async getAll(req, res) {
-    const targets = await TargetsTasks.findAll();
+    let { userId } = req.query;
+    const targets = await TargetsTasks.findAndCountAll({
+      where: {
+        userId,
+      },
+      order: [["id", "DESC"]],
+    });
+    console.log(targets);
     return res.json(targets);
   }
   async update(req, res) {
-    const { name, text, searchId , endDate } = req.body;
+    const { name, text, searchId, endDate } = req.body;
     const updatedTargets = await TargetsTasks.update(
-      { name, text ,endDate},
+      { name, text, endDate },
       { where: { id: searchId } }
     );
     return res.json(updatedTargets);
   }
   async updateCompletedStatus(req, res) {
-    console.log('req body',req.body)
-    const { isCompleted , id } = req.body;
-    console.log('req body',req.body)
+    const { isCompleted, id } = req.body;
     const updatedTargets = await TargetsTasks.update(
-      { isCompleted},
-      { where: { id} }
+      { isCompleted },
+      { where: { id } }
     );
     return res.json(updatedTargets);
   }
@@ -37,13 +49,20 @@ class TargetsController {
         id: id,
       },
     });
-    return res.json(deletedTarget)
+    return res.json(deletedTarget);
   }
-  async getCompleted(req,res) {
-    const completedTargets= await TargetsTasks.findAll({
-        where : {
-            isCompleted : true
-        }
+  async getCompleted(req, res) {
+    let { limit, page } = req.query;
+    page = page || 1;
+    limit = limit || 3;
+    let offset = page * limit - limit;
+    const completedTargets = await TargetsTasks.findAndCountAll({
+      limit,
+      offset,
+      order: [["id", "DESC"]],
+      where: {
+        isCompleted: true,
+      },
     });
     return res.json(completedTargets);
   }

@@ -1,3 +1,7 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
+/* eslint-disable no-shadow */
+/* eslint-disable func-names */
 import { combineReducers, applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
 import remindsReducer from "./reducers/remindsReducer";
